@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 #    runs-on: ubuntu-latest #Github hosted runner
-    runs-on: self-hosted #Self hosted runner, here we will configure ec2 ins. as our self hosted runner
+    runs-on: self-hosted #Self hosted runner, here we will configure ec2 ins. as our self hosted runner, build job will run in this runner, use this for each job
     strategy:
       matrix:
         python-version: [3.8, 3.9]
