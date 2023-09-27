@@ -1,28 +1,35 @@
+# Define the name of the GitHub Actions workflow.
 name: My First GitHub Actions
 
-on: [push]
+# Specify the event that triggers this workflow (push to the repository).
+on: [push] # On every commits job will run
 
+# Define the jobs to be executed as part of this workflow.
 jobs:
   build:
-#    runs-on: ubuntu-latest #Github hosted runner
-    runs-on: self-hosted #Self hosted runner, here we will configure ec2 ins. as our self hosted runner, build job will run in this runner, use this for each job
+    # Specify the runner environment for this job. Commented options indicate alternatives.
+    runs-on: self-hosted # Self-hosted runner, configured to use an EC2 instance.
+    
+    # Define a strategy matrix for running this job with different Python versions.
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: [3.8, 3.9] #There would be 2 jobs for 3.8 and 3.9 version
 
+    # Define the steps to be executed within this job.
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
+    - uses: actions/checkout@v3 # Step 1: Checkout the code from the repository.
+    
+    - name: Set up Python # Step 2: Set up the Python environment.
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }} # Use the Python version from the matrix.
 
-    - name: Install dependencies
+    - name: Install dependencies # Step 3: Install Python dependencies.
       run: |
-        python -m pip install --upgrade pip
-        pip install pytest
+        python -m pip install --upgrade pip # Upgrade pip to the latest version.
+        pip install pytest # Install the pytest package.
 
-    - name: Run tests
+    - name: Run tests # Step 4: Run tests.
       run: |
-        cd src
-        python -m pytest addition.py
+        cd src # Change the working directory to the 'src' folder.
+        python -m pytest addition.py # Run pytest on the 'addition.py' file.
